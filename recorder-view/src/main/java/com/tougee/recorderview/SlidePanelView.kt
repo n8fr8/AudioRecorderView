@@ -22,6 +22,7 @@ class SlidePanelView : RelativeLayout {
     private var toCanceled = false
     private var isEnding = false
 
+    private var maxTimeValue = 60*10;
     var callback: Callback? = null
 
     constructor(context: Context) : this(context, null)
@@ -64,6 +65,10 @@ class SlidePanelView : RelativeLayout {
         val location = IntArray(2)
         slide_ll.getLocationOnScreen(location)
         location[0] - context.dip(64f)
+    }
+
+    fun setMaxTime (newMaxTimeValue: Int) {
+        maxTimeValue = newMaxTimeValue;
     }
 
     fun slideText(x: Float) {
@@ -134,7 +139,7 @@ class SlidePanelView : RelativeLayout {
 
     private val updateTimeRunnable: Runnable by lazy {
         Runnable {
-            if (timeValue > 59) {
+            if (timeValue > maxTimeValue) {
                 callback?.onTimeout()
                 return@Runnable
             }
